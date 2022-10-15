@@ -12,7 +12,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
-var entryCollection *mongo.Collection = openCollection(mongo.Client, "calories")
+var entryCollection *mongo.Collection = OpenCollection(Client, "calories")
 
 func AddEntry(c *gin.Context) {
 
@@ -20,13 +20,14 @@ func AddEntry(c *gin.Context) {
 
 func GetEntries(c *gin.Context) {
 	var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
+	defer cancel()
 
-	var  entries []bson.M
+	var entries []bson.M
 
 	cursor, err := entryCollection.Find(ctx, bson.M{})
 
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error":err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		fmt.Println(err)
 		return
 	}
@@ -37,7 +38,6 @@ func GetEntries(c *gin.Context) {
 		return
 	}
 
-	defer cancel()
 	fmt.Println(entries)
 	c.JSON(http.StatusOK, entries)
 }
@@ -47,7 +47,21 @@ func GetEntriesByIngredient(c *gin.Context) {
 }
 
 func GetEntryById(c *gin.Context) {
+	EntryId := c.Params.ByName("id")
+	docId, _ := primitive.ObjectIDFromHex(EntryId)
 
+	var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
+	defer cancel()
+
+	var entry bson.M
+	if err := entryCollection.FindOne(ctx, bson.M{"_id": docId}).Decode(&entry); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println(entry)
+	c.JSON(http.StatusOK, entry)
 }
 
 func UpdateIngredient(c *gin.Context) {
@@ -63,6 +77,7 @@ func DeleteEntry(c *gin.Context) {
 	docID, _ := primitive.ObjectIDFromHex(entryID)
 
 	var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
+	defer cancel()
 
 	result, err := entryCollection.DeleteOne(ctx, bson.M{"_id": docID})
 
@@ -72,8 +87,6 @@ func DeleteEntry(c *gin.Context) {
 		return
 	}
 
-	defer cancel()
-	c.JSON(http.StatusOK, result.DeletedCount) 
-
+	c.JSON(http.StatusOK, result.DeletedCount)
 
 }
