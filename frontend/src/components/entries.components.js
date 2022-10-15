@@ -42,30 +42,28 @@ const Entries =() =>{
 
             <Modal show={addNewEntry} onHide={() => setAddNewEntry(false)} centred>
                 <Modal.Header closeButton>
-                    <Modal.Title>
-                        Add Calorie Entry 
-                    </Modal.Title>
-
-                    <Modal.Body>
-                        <Form.Group>
-                            <Form.Label>dish</Form.Label>
-                            <Form.Control onChange={(event) => {newEntry.dish = event.target.value}}></Form.Control>
-                            <Form.Label>ingredients</Form.Label>
-                            <Form.Control onChange={(event) => {newEntry.ingredients = event.target.value}}></Form.Control>
-                            <Form.Label>calories</Form.Label>
-                            <Form.Control onChange={(event) => {newEntry.calories = event.target.value}}></Form.Control>
-                            <Form.Label>fat</Form.Label>
-                            <Form.Control onChange={(event) => {newEntry.fat = event.target.value}}></Form.Control>
-                        </Form.Group>
-                        <Button onClick={() => addSingleEntry()}>Add</Button>
-                        <Button onClick={() => setAddNewEntry(false)}>Cancel</Button>
-                    </Modal.Body>
-
+                    <Modal.Title>Add Calorie Entry</Modal.Title>
                 </Modal.Header>
+
+                <Modal.Body>
+                    <Form.Group>
+                        <Form.Label>dish</Form.Label>
+                        <Form.Control onChange={(event) => {newEntry.dish = event.target.value}}></Form.Control>
+                        <Form.Label>ingredients</Form.Label>
+                        <Form.Control onChange={(event) => {newEntry.ingredients = event.target.value}}></Form.Control>
+                        <Form.Label>calories</Form.Label>
+                        <Form.Control onChange={(event) => {newEntry.calories = event.target.value}}></Form.Control>
+                        <Form.Label>fat</Form.Label>
+                        <Form.Control onChange={(event) => {newEntry.fat = event.target.value}}></Form.Control>
+                    </Form.Group>
+                    <Button onClick={() => addSingleEntry()}>Add</Button>
+                    <Button onClick={() => setAddNewEntry(false)}>Cancel</Button>
+                </Modal.Body>
+
 
             </Modal>
 
-            <Modal show={changeIngredient.change} onHide={() => setChangeIngredient({"change": false, "id": 0})}>
+            <Modal show={changeIngredient.change} onHide={() => setChangeIngredient({"change": false, "id": 0})} centered>
                 <Modal.Header closeButton>
                     <Modal.Title>Change Ingredients </Modal.Title>
                 </Modal.Header> 
