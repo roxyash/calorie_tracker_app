@@ -44,6 +44,24 @@ const Entries =() =>{
                 </Modal.Header>
 
             </Modal>
+
+            <Modal show={changeIngredient.change} onHide={() => setChangeIngredient({"change": false, "id": 0})}>
+                <Modal.Header closeButton>
+                    <Modal.Title>
+                        Change Ingredients 
+                    </Modal.Title>
+                </Modal.Header> 
+
+                <Modal.Body>
+                    <Form.Group>
+                        <Form.Label>new ingredients</Form.Label>
+                        <Form.Control onChange={(event) => {setNewIngredientName(event.target.value)}}></Form.Control>
+                    </Form.Group>
+                    <Button onClick={(() => changeIngredientForEntry)}>Change</Button>
+                    <Button onClick={() => setChangeIngredient({"change": false, id:0})}>Cancel</Button>
+                </Modal.Body>
+
+            </Modal>
         </div>
     );
 
@@ -67,11 +85,11 @@ const Entries =() =>{
         var url = "http://localhost:8000/entry/delete" + id
         axios.delete(url, {
     
-        }).then(response) => {
+        }).then(response => {
             if (response.status == 200) {
                 setRefreshData(true)
             }
-        }
+        })
     }
 }
 
