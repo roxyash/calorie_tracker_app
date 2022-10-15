@@ -7,11 +7,14 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 	"github.com/roxyash/calorie_tracker_app/models"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
+
+var validate = validator.New()
 
 var entryCollection *mongo.Collection = OpenCollection(Client, "calories")
 
@@ -28,7 +31,7 @@ func AddEntry(c *gin.Context) {
 	if validationErr != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": validationErr.Error()})
 		fmt.Println(validationErr)
-		return 
+		return
 	}
 	entry.ID = primitive.NewObjectID()
 	result, insertErr := entryCollection.InsertOne(ctx, entry)
@@ -78,7 +81,7 @@ func GetEntriesByIngredient(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		fmt.Println(err)
-		return 
+		return
 	}
 
 	if err = cursor.All(ctx, &entries); err != nil {
@@ -130,14 +133,14 @@ func UpdateIngredient(c *gin.Context) {
 		return
 	}
 
-	result, err := entryCollection.UpdateOne(ctx, bson.M{"_id":docID},
+	result, err := entryCollection.UpdateOne(ctx, bson.M{"_id": docID},
 		bson.D{{"$set", bson.D{{"ingredients", ingredient.Ingredients}}}},
 	)
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		fmt.Println(err)
-		return 
+		return
 	}
 
 	defer cancel()
@@ -162,19 +165,18 @@ func UpdateEntry(c *gin.Context) {
 	if validationErr != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": validationErr.Error()})
 		fmt.Println(validationErr)
-		return 
+		return
 	}
 
 	result, err := entryCollection.ReplaceOne(
 		ctx,
 		bson.M{"_id": docID},
 		bson.M{
-			"dish" : entry.Dish,
-			"fat": entry.Fat,
+			"dish":        entry.Dish,
+			"fat":         entry.Fat,
 			"ingredients": entry.Ingredients,
-			"calories": entry.Calories,
+			"calories":    entry.Calories,
 		},
-
 	)
 
 	if err != nil {
