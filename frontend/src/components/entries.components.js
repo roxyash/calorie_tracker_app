@@ -62,6 +62,26 @@ const Entries =() =>{
                 </Modal.Body>
 
             </Modal>
+
+            <Modal show={changeEntry.change} onHide={() => setChangeEntry({"change": false, "id":0})} centred>
+                <Modal.Header closeButton>
+                    <Modal.Title>Change Entry</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form.Group>
+                        <Form.Label>dish</Form.Label>
+                        <Form.Control onChange={(event) => {newEntry.dish = event.target.value}}></Form.Control>
+                        <Form.Label>ingredients</Form.Label>
+                        <Form.Control onChange={(event) => {newEntry.ingredients = event.target.value}}></Form.Control>
+                        <Form.Label>calories</Form.Label>
+                        <Form.Control onChange={(event) => {newEntry.calories = event.target.value}}></Form.Control>
+                        <Form.Label>fat</Form.Label>
+                        <Form.Contro type="number" onChange={(event) => {newEntry.fat = event.target.value}}></Form.Control>
+                    </Form.Group>
+                    <Button onClick={() => changeSingleEntry()}>Change</Button>
+                    <Button onClick={() => setChangeEntry({"change": false, "id":0})}>Cancel</Button>
+                </Modal.Body>
+            </Modal>
         </div>
     );
 
