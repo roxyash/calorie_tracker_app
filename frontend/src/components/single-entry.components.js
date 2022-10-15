@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 
 import 'bootstrap/dist/css/bootstrap.css'
 
-import {Button, Card, Row, Col} from 'react-bootstrap'
+import {Button, Row, Col, Card} from 'react-bootstrap'
 
 const Entry = ({entryData,  setChangeIngredient, deleteSingleEntry, setChangeEntry}) => {
     return(
@@ -37,3 +37,5 @@ const Entry = ({entryData,  setChangeIngredient, deleteSingleEntry, setChangeEnt
         )
     }
 }
+
+export default Entry

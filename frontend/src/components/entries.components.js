@@ -2,7 +2,9 @@ import React, {useState, useEffect} from 'react';
 
 import axios from "axios";
 
-import {Button, Form, Container, Modal} from 'react-bootstrap';
+import {Button, Form, Modal, Container} from 'react-bootstrap'
+
+
 
 import Entry from './single-entry.components';
 
@@ -65,9 +67,7 @@ const Entries =() =>{
 
             <Modal show={changeIngredient.change} onHide={() => setChangeIngredient({"change": false, "id": 0})}>
                 <Modal.Header closeButton>
-                    <Modal.Title>
-                        Change Ingredients 
-                    </Modal.Title>
+                    <Modal.Title>Change Ingredients </Modal.Title>
                 </Modal.Header> 
 
                 <Modal.Body>
@@ -102,6 +102,19 @@ const Entries =() =>{
             </Modal>
         </div>
     );
+
+    function changeIngredientForEntry(){
+        changeIngredient.change = false
+        var url = "http://localhost:8000/ingredient/update/" + changeIngredient.id
+        axios.put(url, {
+            "ingredients": newIngredientName
+        }).then(response => {
+            console.log(response.status)
+            if(response.status == 200) {
+                setRefreshData(true)
+            }
+        })
+    }
 
     function changeSingleEntry(){
         changeEntry.change = false;
@@ -151,6 +164,7 @@ const Entries =() =>{
     }
 }
 
+export default Entries
 
 
  
