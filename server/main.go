@@ -3,8 +3,9 @@ package main
 import (
 	"os"
 
-	"github.com/gin-gonic/gin"
 	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
+	"github.com/roxyash/calorie_tracker_app/routes"
 )
 
 func main() {
@@ -19,7 +20,7 @@ func main() {
 
 	router.POST("/entry/create", routes.AddEntry)
 	router.GET("/entries", routes.GetEntries)
-	router.GET("/entry/:id/", routes.EntryById)
+	router.GET("/entry/:id/", routes.GetEntryById)
 	router.GET("/ingredient/:ingredient", routes.GetEntriesByIngredient)
 
 	router.PUT("/entry/update/:id", routes.UpdateEntry)
